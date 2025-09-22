@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Always By Your Side</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        h1 {
+            color: #5c6bc0;
+            margin-bottom: 25px;
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        p {
+            color: #546e7a;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #7986cb, #9fa8da);
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(121, 134, 203, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(121, 134, 203, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+            transform: translateX(-100%);
+        }
+        
+        .btn:hover::after {
+            transform: translateX(100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .popup-content {
+            background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+            padding: 45px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        
+        .heart {
+            color: #ff5252;
+            font-size: 2.5rem;
+            margin: 20px 0;
+            display: inline-block;
+            animation: pulse 1.8s infinite;
+            text-shadow: 0 0 15px rgba(255, 82, 82, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .smiley {
+            font-size: 4rem;
+            margin: 25px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .share-btn {
+            background: linear-gradient(to right, #ff5252, #ff867c);
+            margin-top: 20px;
+        }
+        
+        .cancel-btn {
+            background: linear-gradient(to right, #78909c, #b0bec5);
+            margin-top: 15px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: #78909c;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            animation: fadeIn 2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .floating-element {
+            position: absolute;
+            color: rgba(120, 144, 156, 0.15);
+            font-size: 2rem;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #78909c;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #ff5252;
+        }
+        
+        .message-bubble {
+            background: #f5f5f5;
+            border-radius: 30px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+            animation: fadeIn 1s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .message-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #f5f5f5 transparent transparent;
+        }
+        
+        .background-anim {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(187, 222, 251, 0.3);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .baka-text {
+            font-size: 1.2rem;
+            color: #ff5252;
+            margin-top: 10px;
+            font-weight: bold;
+            animation: shake 0.5s ease infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-anim" id="background-anim"></div>
+    
+    <div class="container">
+        <div class="floating-elements">
+            <div class="floating-element" style="top: 10%; left: 15%;">✦</div>
+            <div class="floating-element" style="top: 75%; left: 80%;">❀</div>
+            <div class="floating-element" style="top: 40%; left: 5%;">♡</div>
+            <div class="floating-element" style="top: 20%; left: 90%;">☁</div>
+            <div class="floating-element" style="top: 65%; left: 10%;">☼</div>
+        </div>
+        
+        <div id="initial-screen">
+            <h1>Everything Will Be Fine</h1>
+            <div class="message-bubble">
+                <p>Take a deep breath. You're stronger than you think.</p>
+            </div>
+            <button class="btn" id="first-btn">
+                <i class="fas fa-hand-point-right"></i> Click Me
+            </button>
+        </div>
+        
+        <div id="second-screen" class="hidden">
+            <div class="message-bubble">
+                <p>If nothing is fine right now, remember that this too shall pass.</p>
+            </div>
+            <div class="message-bubble">
+                <p>Share with me, and I'll make sure everything will be okay.</p>
+            </div>
+            <div class="heart">❤️</div>
+            <button class="btn share-btn" id="second-btn">
+                <i class="fas fa-share-alt"></i> Click Me
+            </button>
+        </div>
+        
+        <div id="final-screen" class="hidden">
+            <div class="smiley">😊</div>
+            <h2>Glad You're Smiling!</h2>
+            <div class="message-bubble">
+                <p>Just remember, you matter, bache.</p>
+            </div>
+            <div class="message-bubble">
+                <p>Your presence makes a difference in this world.</p>
+            </div>
+            <button class="btn" id="restart-btn">
+                <i class="fas fa-redo"></i> Start Over
+            </button>
+        </div>
+        
+        <div class="footer">
+            Always by your side
+        </div>
+    </div>
+
+    <div class="popup" id="share-popup">
+        <div class="popup-content">
+            <button class="close-btn" id="close-popup">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>I'm Here For You</h2>
+            <div class="heart">💬</div>
+            <div class="message-bubble">
+                <p>Reach out anytime you need to talk.</p>
+            </div>
+            <div class="message-bubble">
+                <p>You're never alone in this.</p>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn" id="click-me-btn">
+                    <i class="fas fa-mouse-pointer"></i> Click Me
+                </button>
+                <button class="btn cancel-btn" id="cancel-btn">
+                    <i class="fas fa-times-circle"></i> Cancel Me Baka
+                </button>
+                <div class="baka-text">Baka! Baka! Baka!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstBtn = document.getElementById('first-btn');
+            const secondBtn = document.getElementById('second-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            const closePopupBtn = document.getElementById('close-popup');
+            const clickMeBtn = document.getElementById('click-me-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const sharePopup = document.getElementById('share-popup');
+            const backgroundAnim = document.getElementById('background-anim');
+            const bakaText = document.querySelector('.baka-text');
+            
+            const initialScreen = document.getElementById('initial-screen');
+            const secondScreen = document.getElementById('second-screen');
+            const finalScreen = document.getElementById('final-screen');
+            
+            // Create floating circles for background
+            createFloatingCircles();
+            
+            // Initially hide the baka text
+            bakaText.style.display = 'none';
+            
+            // First button click
+            firstBtn.addEventListener('click', function() {
+                initialScreen.classList.add('hidden');
+                secondScreen.classList.remove('hidden');
+            });
+            
+            // Second button click
+            secondBtn.addEventListener('click', function() {
+                sharePopup.style.display = 'flex';
+            });
+            
+            // Close popup
+            closePopupBtn.addEventListener('click', function() {
+                sharePopup.style.display = 'none';
+            });
+            
+            // Click Me button in popup
+            clickMeBtn.addEventListener('click', function() {
+                sharePopup.style.display = 'none';
+                secondScreen.classList.add('hidden');
+                finalScreen.classList.remove('hidden');
+            });
+            
+            // Cancel button with baka behavior
+            cancelBtn.addEventListener('click', function() {
+                // Show the baka text
+                bakaText.style.display = 'block';
+                
+                // Move the cancel button randomly
+                const randomX = Math.random() * 200 - 100;
+                const randomY = Math.random() * 200 - 100;
+                cancelBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                
+                // Change button text color briefly
+                cancelBtn.style.color = '#ff0000';
+                setTimeout(() => {
+                    cancelBtn.style.color = 'white';
+                }, 500);
+            });
+            
+            // Restart button
+            restartBtn.addEventListener('click', function() {
+                finalScreen.classList.add('hidden');
+                initialScreen.classList.remove('hidden');
+                bakaText.style.display = 'none';
+                cancelBtn.style.transform = 'translate(0, 0)';
+            });
+            
+            // Create floating circles animation
+            function createFloatingCircles() {
+                const colors = [
+                    'rgba(179, 229, 252, 0.4)',
+                    'rgba(225, 190, 231, 0.3)',
+                    'rgba(197, 202, 233, 0.3)',
+                    'rgba(209, 196, 233, 0.3)',
+                    'rgba(179, 229, 252, 0.3)'
+                ];
+                
+                for (let i = 0; i < 15; i++) {
+                    const circle = document.createElement('div');
+                    circle.classList.add('circle');
+                    
+                    const size = Math.random() * 150 + 50;
+                    circle.style.width = `${size}px`;
+                    circle.style.height = `${size}px`;
+                    
+                    circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    circle.style.left = `${Math.random() * 100}%`;
+                    circle.style.top = `${Math.random() * 100 + 100}%`;
+                    
+                    const duration = Math.random() * 20 + 15;
+                    circle.style.animationDuration = `${duration}s`;
+                    
+                    backgroundAnim.appendChild(circle);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
